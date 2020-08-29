@@ -13,7 +13,7 @@ namespace HumanResourceAPI.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "qakp740 edit"
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "Tao moi 1 tinh nang thanh cong"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
