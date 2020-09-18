@@ -4,4 +4,12 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="NLog.Extensions.Logging" Version="1.6.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HumanResourceAPI.Infrastructure\HumanResourceAPI.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
