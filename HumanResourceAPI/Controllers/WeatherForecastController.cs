@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entities.Models;
 using HumanResourceAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,34 +14,36 @@ namespace HumanResourceAPI.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private ILoggerManager _logger;
+        private IRepositoryBase<Company, Guid> _companyRepository;
         
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "Tao moi 1 tinh nang thanh cong - Merge vao staging"
         };
 
-        public WeatherForecastController(ILoggerManager logger)
+        public WeatherForecastController(ILoggerManager logger, IRepositoryBase<Company, Guid> companyRepository)
         {
             _logger = logger;
+            _companyRepository = companyRepository;
         }
 
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public List<Company> Get()
         {
-            _logger.LogInfo("Đây là info message from Weather Controller");
-            _logger.LogWarn("Đây là warn message from Weather Controller");
-            _logger.LogDebug("Đây là debug message from Weather Controller");
-            _logger.LogError("Đây là error message from Weather Controller");
-            
-            var rng = new Random();
-            return Enumerable.Range(1, 4).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var result = _companyRepository.FindAll(false).ToList();
+            return result;
+
+            //
+            //
+            // var rng = new Random();
+            // return Enumerable.Range(1, 4).Select(index => new WeatherForecast
+            // {
+            //     Date = DateTime.Now.AddDays(index),
+            //     TemperatureC = rng.Next(-20, 55),
+            //     Summary = Summaries[rng.Next(Summaries.Length)]
+            // })
+            // .ToArray();
         }
     }
 }

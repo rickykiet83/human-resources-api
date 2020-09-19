@@ -35,7 +35,7 @@ namespace HumanResourceAPI
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
-            
+            services.ConfigureRepository();
             services.AddControllers();
         }
 
