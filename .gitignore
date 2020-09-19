@@ -403,3 +403,5 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+HumanResourceAPI/internal_logs
+HumanResourceAPI/logs
