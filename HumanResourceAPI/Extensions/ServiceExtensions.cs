@@ -1,3 +1,5 @@
+using HumanResourceAPI.Infrastructure;
+using LoggerService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,5 +23,8 @@ namespace HumanResourceAPI.Extensions
             {
                 
             });
+
+        public static void ConfigureLoggerService(this IServiceCollection services) =>
+            services.AddScoped<ILoggerManager, LoggerManager>();
     }
 }
