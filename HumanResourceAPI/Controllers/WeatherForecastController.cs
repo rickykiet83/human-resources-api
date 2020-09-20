@@ -14,24 +14,23 @@ namespace HumanResourceAPI.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private ILoggerManager _logger;
-        private IRepositoryBase<Company, Guid> _companyRepository;
+        private IRepositoryManager _repositoryManager;
         
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching", "Tao moi 1 tinh nang thanh cong - Merge vao staging"
         };
 
-        public WeatherForecastController(ILoggerManager logger, IRepositoryBase<Company, Guid> companyRepository)
+        public WeatherForecastController(ILoggerManager logger, IRepositoryManager repositoryManager)
         {
             _logger = logger;
-            _companyRepository = companyRepository;
+            _repositoryManager = repositoryManager;
         }
-
 
         [HttpGet]
         public List<Company> Get()
         {
-            var result = _companyRepository.FindAll(false).ToList();
+            var result = _repositoryManager.Company.FindAll(false).ToList();
             return result;
 
             //
