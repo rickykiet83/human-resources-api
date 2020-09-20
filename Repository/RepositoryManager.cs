@@ -36,5 +36,7 @@ namespace Repository
                 return _employeeRepository;
             }
         }
+
+        public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     }
 }

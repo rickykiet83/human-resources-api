@@ -6,5 +6,7 @@ namespace HumanResourceAPI.Infrastructure
     {
         ICompanyRepository Company { get; }
         IEmployeeRepository Employee { get; }
+
+        Task SaveAsync();
     }
 }
