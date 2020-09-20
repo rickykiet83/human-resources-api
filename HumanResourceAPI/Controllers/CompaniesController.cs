@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Entities.DTOs;
 using Entities.Models;
 using HumanResourceAPI.Infrastructure;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanResourceAPI.Controllers
@@ -126,6 +126,35 @@ namespace HumanResourceAPI.Controllers
             await _repository.SaveAsync();
 
             return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PartiallyUpdateCompany(Guid id,
+            [FromBody] JsonPatchDocument<CompanyUpdatingDto> patchDoc)
+        {
+            if(patchDoc == null)
+            {
+                _logger.LogError("patchDoc object sent from client is null.");
+                return BadRequest("patchDoc object is null");
+            }
+            
+            var companyEntity = await _repository.Company.FindByIdAsync(id);
+            if (companyEntity == null)
+            {
+                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            var companyToPatch = _mapper.Map<CompanyUpdatingDto>(companyEntity);
+            
+            patchDoc.ApplyTo(companyToPatch);
+
+            _mapper.Map(companyToPatch, companyEntity);
+
+            await _repository.SaveAsync();
+
+            return NoContent();
+
         }
     }
 }
