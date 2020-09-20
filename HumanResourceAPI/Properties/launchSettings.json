@@ -19,7 +19,7 @@
     },
     "HumanResourceAPI": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "weatherforecast",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
@@ -28,7 +28,7 @@
     },
     "HumanResourceAPI.Staging": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "weatherforecast",
       "applicationUrl": "https://humanresource.azurewebsites.net",
       "environmentVariables": {
@@ -37,7 +37,7 @@
     },
     "HumanResourceAPI.Production": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "weatherforecast",
       "applicationUrl": "https://humanresource.azurewebsites.net",
       "environmentVariables": {
