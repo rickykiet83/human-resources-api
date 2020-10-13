@@ -150,8 +150,16 @@ namespace HumanResourceAPI.Controllers
                 _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
-
+            
             var companyToPatch = _mapper.Map<CompanyUpdatingDto>(companyEntity);
+
+            TryValidateModel(companyToPatch);
+                        
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the patch document");
+                return UnprocessableEntity(ModelState);
+            }
             
             patchDoc.ApplyTo(companyToPatch);
 

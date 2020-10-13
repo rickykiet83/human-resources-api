@@ -38,6 +38,11 @@ namespace HumanResourceAPI
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepository();
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddAutoMapper(typeof(Startup));
 
             services.Configure<ApiBehaviorOptions>(options =>
