@@ -39,6 +39,11 @@ namespace HumanResourceAPI
             services.ConfigureRepository();
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             
             services.AddControllers(config =>
             {

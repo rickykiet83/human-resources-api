@@ -74,6 +74,12 @@ namespace HumanResourceAPI.Controllers
                 return BadRequest("CompanyCreationDto object is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the CompanyCreationDto object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var companyEntity = _mapper.Map<Company>(company);
             
             _repository.Company.Create(companyEntity);
