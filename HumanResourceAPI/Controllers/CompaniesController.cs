@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Entities.DTOs;
 using Entities.Models;
+using Entities.RequestFeatures;
 using HumanResourceAPI.Infrastructure;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -33,11 +34,11 @@ namespace HumanResourceAPI.Controllers
         }
         
         [HttpGet]
-        public IActionResult GetCompanies()
+        public async Task<IActionResult> GetCompanies([FromQuery] CompanyParameters companyParameters)
         {
             try
             {
-                var companies =  _repository.Company.FindAll(trackChange: false);
+                var companies = await _repository.Company.GetCompaniesAsync(companyParameters, trackChanges: false);
                 var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
                 return Ok(companiesDto);
