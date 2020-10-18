@@ -8,7 +8,7 @@ namespace Entities.Models
     {
         [Required(ErrorMessage = "First Name is required.")]
         [MaxLength(20, ErrorMessage = "Maximum length for the First Name is 20 characters.")]
-        public string FistName { get; set; }
+        public string FirstName { get; set; }
         
         [Required(ErrorMessage = "Last Name is required.")]
         [MaxLength(50, ErrorMessage = "Maximum length for the Last Name is 50 characters.")]

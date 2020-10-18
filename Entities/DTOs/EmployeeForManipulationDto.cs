@@ -17,7 +17,7 @@ namespace Entities.DTOs
         public int Age { get; set; }
         
         [Required(ErrorMessage = "Position is a required field.")]
-        [MaxLength(20, ErrorMessage = "Maximum length for the Position is 20 characters.")]
+        [MaxLength(100, ErrorMessage = "Maximum length for the Position is 20 characters.")]
         public string Position { get; set; }
         
         public string Address { get; set; }
