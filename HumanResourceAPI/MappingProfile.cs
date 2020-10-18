@@ -14,6 +14,8 @@ namespace HumanResourceAPI
 
             CreateMap<CompanyCreationDto, Company>();
             CreateMap<CompanyUpdatingDto, Company>().ReverseMap();
+            
+            CreateMap<EmployeeForCreationDto, Employee>();
         }
     }
 }

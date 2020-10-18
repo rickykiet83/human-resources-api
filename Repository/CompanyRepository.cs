@@ -16,11 +16,15 @@ namespace Repository
         {
         }
 
-        public async Task<IEnumerable<Company>> GetCompaniesAsync(CompanyParameters companyParameters, bool trackChanges) => 
-            await FindAll(trackChanges)
-            .OrderBy(c => c.Name)
-            .Skip((companyParameters.PageNumber - 1) * companyParameters.PageSize)
-            .Take(companyParameters.PageSize)
-            .ToListAsync();
+        public async Task<PagedList<Company>> GetCompaniesAsync(CompanyParameters companyParameters, bool trackChanges)
+        {
+            var companies = await FindAll(trackChanges)
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        
+            return PagedList<Company>
+                .ToPagedList(companies, companyParameters.PageNumber,
+                    companyParameters.PageSize);
+        }
     }
 }

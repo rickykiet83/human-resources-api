@@ -8,6 +8,6 @@ namespace HumanResourceAPI.Infrastructure
 {
     public interface ICompanyRepository : IRepositoryBase<Company, Guid>
     {
-        Task<IEnumerable<Company>> GetCompaniesAsync(CompanyParameters companyParameters, bool trackChanges);
+        Task<PagedList<Company>> GetCompaniesAsync(CompanyParameters companyParameters, bool trackChanges);
     }
 }
