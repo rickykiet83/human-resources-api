@@ -8,6 +8,7 @@ using Entities.RequestFeatures;
 using HumanResourceAPI.Infrastructure;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace HumanResourceAPI.Controllers
 {
@@ -38,7 +39,12 @@ namespace HumanResourceAPI.Controllers
         {
             try
             {
-                var companies = await _repository.Company.GetCompaniesAsync(companyParameters, trackChanges: false);
+                var companies = await _repository.Company.GetCompaniesAsync(companyParameters, 
+                    trackChanges: false);
+                
+                Response.Headers.Add("X-Pagination", 
+                    JsonConvert.SerializeObject(companies.MetaData));
+
                 var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
                 return Ok(companiesDto);
