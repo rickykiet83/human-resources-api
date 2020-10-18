@@ -7,6 +7,7 @@ using Entities.Models;
 using Entities.RequestFeatures;
 using HumanResourceAPI.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 
 namespace Repository
 {
@@ -18,8 +19,9 @@ namespace Repository
 
         public async Task<PagedList<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
         {
-            var employees = await FindAll(trackChanges, e => e.CompanyId.Equals(companyId) &&
-                                                             (e.Age >= employeeParameters.MinAge && e.Age <= employeeParameters.MaxAge))
+            var employees = await FindAll(trackChanges, e => e.CompanyId.Equals(companyId))
+                .FilterEmployees(employeeParameters.MinAge, employeeParameters.MaxAge)
+                .Search(employeeParameters.SearchTerm)
                 .OrderBy(e => e.FirstName)
                 .ToListAsync();
         
