@@ -37,6 +37,7 @@ namespace HumanResourceAPI
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepository();
+            services.ConfigureSwagger();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -79,6 +80,12 @@ namespace HumanResourceAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Human Resource API v1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
