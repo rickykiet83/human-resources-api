@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Entities.DTOs;
@@ -8,7 +7,6 @@ using Entities.Models;
 using Entities.RequestFeatures;
 using HumanResourceAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Newtonsoft.Json;
 
 namespace HumanResourceAPI.Controllers

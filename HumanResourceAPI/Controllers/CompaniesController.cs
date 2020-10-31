@@ -12,8 +12,10 @@ using Newtonsoft.Json;
 
 namespace HumanResourceAPI.Controllers
 {
+    [ApiVersion("1.0", Deprecated = true)]
     [Route("api/companies")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class CompaniesController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -65,14 +67,12 @@ namespace HumanResourceAPI.Controllers
                 _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
-            else
-            {
-                var companyDto = _mapper.Map<CompanyDto>(company);
-                return Ok(companyDto);
-            }
+
+            var companyDto = _mapper.Map<CompanyDto>(company);
+            return Ok(companyDto);
         }
         
-        [HttpPost(Name = "CreateCompany")]
+        [HttpPost(Name = RouteNames.CreateCompany)]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyCreationDto company)
         {
             if (company == null)
