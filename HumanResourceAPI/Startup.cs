@@ -38,6 +38,7 @@ namespace HumanResourceAPI
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepository();
             services.ConfigureSwagger();
+            services.ConfigureVersioning();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -46,11 +47,6 @@ namespace HumanResourceAPI
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
-            
             services.AddControllers(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
@@ -85,6 +81,7 @@ namespace HumanResourceAPI
             app.UseSwaggerUI(s =>
             {
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "Human Resource API v1");
+                s.SwaggerEndpoint("/swagger/v2/swagger.json", "Human Resource API v2");
             });
 
             app.UseEndpoints(endpoints =>
