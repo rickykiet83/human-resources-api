@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Repository;
 
 namespace HumanResourceAPI.Extensions
@@ -41,5 +42,17 @@ namespace HumanResourceAPI.Extensions
         public static void ConfigureRepository(this IServiceCollection services) => 
             services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
                 .AddTransient<IRepositoryManager, RepositoryManager>();
+        
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Human Resource API",
+                    Version = "v1"
+                });
+            });
+        }
     }
 }
