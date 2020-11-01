@@ -17,6 +17,7 @@ namespace HumanResourceAPI
 
             CreateMap<EmployeeDto, Employee>().ReverseMap();
             CreateMap<EmployeeForCreationDto, Employee>().ReverseMap();
+            CreateMap<UserForRegistrationDto, User>().ReverseMap();
         }
     }
 }

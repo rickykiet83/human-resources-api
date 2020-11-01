@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HumanResourceAPI.Extensions;
+using HumanResourceAPI.Infrastructure;
+using HumanResourceAPI.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -39,6 +41,10 @@ namespace HumanResourceAPI
             services.ConfigureRepository();
             services.ConfigureSwagger();
             services.ConfigureVersioning();
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -75,6 +81,7 @@ namespace HumanResourceAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
