@@ -6,6 +6,7 @@ using Entities.DTOs;
 using Entities.Models;
 using Entities.RequestFeatures;
 using HumanResourceAPI.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -37,6 +38,7 @@ namespace HumanResourceAPI.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetCompanies([FromQuery] CompanyParameters companyParameters)
         {
             try
