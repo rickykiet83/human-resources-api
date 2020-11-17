@@ -6,6 +6,7 @@ using Entities.DTOs;
 using Entities.Models;
 using Entities.RequestFeatures;
 using HumanResourceAPI.Infrastructure;
+using HumanResourceAPI.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -22,22 +23,28 @@ namespace HumanResourceAPI.Controllers
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
+        private readonly CompanyLinks _companyLinks;
         
         private static class RouteNames
         {
             public const string GetCompanies = nameof(GetCompanies);
-            public const string GetCompanyById = nameof(GetCompanyById);
+            public const string GetCompany = nameof(GetCompany);
             public const string CreateCompany = nameof(CreateCompany);
+            public const string DeleteCompany = nameof(DeleteCompany);
+            public const string UpdateCompany = nameof(UpdateCompany);
+            public const string PartiallyUpdateCompany = nameof(PartiallyUpdateCompany);
         } 
 
-        public CompaniesController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        public CompaniesController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper, 
+            CompanyLinks companyLinks)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _companyLinks = companyLinks;
         }
         
-        [HttpGet]
+        [HttpGet(Name = RouteNames.GetCompanies)]
         [Authorize]
         public async Task<IActionResult> GetCompanies([FromQuery] CompanyParameters companyParameters)
         {
@@ -50,8 +57,10 @@ namespace HumanResourceAPI.Controllers
                     JsonConvert.SerializeObject(companies.MetaData));
 
                 var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+                
+                var links = _companyLinks.TryGenerateLinks(companiesDto, companyParameters.Fields, HttpContext);
 
-                return Ok(companiesDto);
+                return links.HasLinks ? Ok(links.LinkedEntities) : Ok(links.ShapedEntities);
             }
             catch (Exception ex)
             {
@@ -60,7 +69,7 @@ namespace HumanResourceAPI.Controllers
             }
         }
         
-        [HttpGet("{id}", Name = RouteNames.GetCompanyById)]
+        [HttpGet("{id}", Name = RouteNames.GetCompany)]
         public async Task<IActionResult> GetCompany(Guid id)
         {
             var company = await _repository.Company.FindByIdAsync(id);
@@ -96,10 +105,10 @@ namespace HumanResourceAPI.Controllers
 
             var companyToReturn = _mapper.Map<CompanyDto>(companyEntity);
 
-            return CreatedAtRoute(RouteNames.GetCompanyById, new { id = companyToReturn.Id }, companyToReturn);
+            return CreatedAtRoute(RouteNames.GetCompany, new { id = companyToReturn.Id }, companyToReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = RouteNames.DeleteCompany)]
         public async Task<IActionResult> DeleteCompany(Guid id)
         {
             var company = await _repository.Company.FindByIdAsync(id);
@@ -115,7 +124,7 @@ namespace HumanResourceAPI.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = RouteNames.UpdateCompany)]
         public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyUpdatingDto company)
         {
             if (company == null)
@@ -143,7 +152,7 @@ namespace HumanResourceAPI.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}", Name = RouteNames.PartiallyUpdateCompany)]
         public async Task<IActionResult> PartiallyUpdateCompany(Guid id,
             [FromBody] JsonPatchDocument<CompanyUpdatingDto> patchDoc)
         {

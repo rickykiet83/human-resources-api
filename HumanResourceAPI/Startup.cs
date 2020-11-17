@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Entities;
+using Entities.DTOs;
 using HumanResourceAPI.Extensions;
 using HumanResourceAPI.Infrastructure;
 using HumanResourceAPI.Utility;
@@ -17,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
+using Repository.DataShaping;
 
 
 namespace HumanResourceAPI
@@ -45,6 +48,10 @@ namespace HumanResourceAPI
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            
+            services.AddScoped<IDataShaper<CompanyDto>, DataShaper<CompanyDto>>();
+            
+            services.AddScoped<CompanyLinks>();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

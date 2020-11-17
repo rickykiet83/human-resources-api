@@ -2,10 +2,8 @@ using System;
 
 namespace Entities.DTOs
 {
-    public class EmployeeDto
+    public class EmployeeDto : DomainEntity<Guid>
     {
-        public Guid Id { get; set; }
-        
         public string FirstName { get; set; }
         
         public string LastName { get; set; }
