@@ -49,7 +49,7 @@ namespace HumanResourceAPI
             services.ConfigureJWT(Configuration);
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             
-            services.AddScoped<IDataShaper<CompanyDto>, DataShaper<CompanyDto>>();
+            services.AddScoped<IDataShaper<CompanyDto, Guid>, DataShaper<CompanyDto, Guid>>();
             
             services.AddScoped<CompanyLinks>();
 

@@ -1,6 +1,6 @@
 namespace Entities.Models
 {
-    public class ShapedEntity
+    public class ShapedEntity<K> : DomainEntity<K>
     {
         public ShapedEntity()
         {
