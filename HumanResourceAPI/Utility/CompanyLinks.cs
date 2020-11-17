@@ -13,9 +13,9 @@ namespace HumanResourceAPI.Utility
     public class CompanyLinks
     {
         private readonly LinkGenerator _linkGenerator;
-        private readonly IDataShaper<CompanyDto> _dataShaper;
+        private readonly IDataShaper<CompanyDto, Guid> _dataShaper;
 
-        public CompanyLinks(LinkGenerator linkGenerator, IDataShaper<CompanyDto> dataShaper)
+        public CompanyLinks(LinkGenerator linkGenerator, IDataShaper<CompanyDto, Guid> dataShaper)
         {
             _linkGenerator = linkGenerator;
             _dataShaper = dataShaper;
@@ -34,7 +34,7 @@ namespace HumanResourceAPI.Utility
 
             for (var index = 0; index < companyDtoList.Count(); index++)
             {
-                var companyLinks = CreateCompanyLinks(httpContext, companyDtoList[index].Id, fields);
+                var companyLinks = CreateCompanyLinks(httpContext, companyDtoList[index], fields);
                 shapedCompanies[index].Add("Links", companyLinks);
             }
 
@@ -53,13 +53,14 @@ namespace HumanResourceAPI.Utility
             return companiesWrapper;
         }
         
-        private List<Link> CreateCompanyLinks(HttpContext httpContext, Guid id, string fields = "")
+        private List<Link> CreateCompanyLinks(HttpContext httpContext, CompanyDto dto, string fields = "")
         {
+            var id = dto.Id;
             var links = new List<Link>
             {
                 new Link(
                     _linkGenerator.GetUriByAction(httpContext, $"GetCompany",
-                        values: new {id, fields}),
+                        values: new { id, fields }),
                     "self",
                     "GET"),
                 new Link(_linkGenerator.GetUriByAction(httpContext, $"DeleteCompany", 

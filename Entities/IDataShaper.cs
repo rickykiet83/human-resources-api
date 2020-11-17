@@ -3,9 +3,9 @@ using Entities.Models;
 
 namespace Entities
 {
-    public interface IDataShaper<T>
+    public interface IDataShaper<T, K>
     {
-        IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
-        ShapedEntity ShapeData(T entity, string fieldsString);
+        IEnumerable<ShapedEntity<K>> ShapeData(IEnumerable<T> entities, string fieldsString);
+        ShapedEntity<K> ShapeData(T entity, string fieldsString);
     }
 }
